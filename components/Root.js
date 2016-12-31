@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 var Orientation = require('react-native-orientation');
 import MainGame from './MainGame'
+import HomePage from './HomePage'
 
 export default class BM extends Component {
   componentDidMount() {
@@ -16,7 +17,7 @@ export default class BM extends Component {
     // <Main />
     <Navigator
       initialRoute ={{
-        id:'InGame_SinglePlayer'
+        id:'Home'
       }}
       renderScene={
         this.navigatorRenderScene
@@ -26,9 +27,14 @@ export default class BM extends Component {
   }
   navigatorRenderScene(route,navigator){
     _navigator = navigator;
-    if (route.id === 'InGame_SinglePlayer') {
-      return (<MainGame navigator={ navigator } />);
+    switch(route.id){
+      case 'InGame_SinglePlayer':
+        return (<MainGame navigator={ navigator } />);
+      case 'Home':
+          return (<HomePage navigator={ navigator } />);
+
     }
+
 
 
   }

@@ -27,13 +27,13 @@ export default class MainGame extends Component {
     const sum = arr.reduce(function(prev, cur) {
       return prev + cur;
     })
-    console.warn('sum:',sum)
+    // console.warn('sum:',sum)
     this.setState({prevNum:this.state.randomNumber},
                   ()=>{if(sum===this.state.randomNumber){
                         do{
                             var newrandom=Math.floor(Math.random() * 255) + 1;
                           }while(newrandom==this.state.prevNum);
-                          console.warn(newrandom);
+                          // console.warn(newrandom);
                           this.setState({randomNumber:newrandom});
                         }
 
