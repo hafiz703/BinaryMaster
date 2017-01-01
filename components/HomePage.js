@@ -6,10 +6,13 @@ import {
   View,
   Navigator,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import clrs from '../utils/clrs'
 import _ from 'lodash'
-import AwesomeButton from 'react-native-awesome-button'
+import * as Animatable from 'react-native-animatable';
+
+
 
 export default class HomePage extends Component {
 
@@ -28,20 +31,21 @@ export default class HomePage extends Component {
 
   render(){
     return(
-      <View style = {styles.container}>
+
+      <Image source={require("../utils/bg.png")} style={styles.backgroundImage} >
         <StatusBar hidden = {true} />
-        <Text style = {styles.header}>BinaryMaster</Text>
+
+        <Animatable.Text style = {styles.header} animation="slideInDown" iterationCount={1} direction="alternate">BinaryMaster</Animatable.Text>
         <TouchableOpacity style = {styles.button}  onPress={this.SPButtonPress}>
-          <Text style = {styles.buttonText}>
-            Single Player
-          </Text>
+          <Animatable.Text animation="pulse" easing="ease-out" iterationCount="infinite" style={styles.buttonText}>Single Player</Animatable.Text>
         </TouchableOpacity>
-        <TouchableOpacity style = {styles.button} >
-          <Text style = {styles.buttonText}>
-            MultiPlayer
-          </Text>
+
+        <Animatable.View ref="view">
+        <TouchableOpacity style = {styles.button} onPress={() => this.refs.view.bounce(800).then((endState) => {})}>
+          <Animatable.Text animation="pulse" easing="ease-out" iterationCount="infinite" style={styles.buttonText}>MultiPlayer</Animatable.Text>
         </TouchableOpacity>
-      </View>
+        </Animatable.View>
+      </Image>
     )
   }
 
@@ -51,19 +55,27 @@ export default class HomePage extends Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode:'stretch',
+  },
   container: {
     // paddingTop: 16,
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
+
     // alignItems: 'center',
-    backgroundColor: clrs.navygrey,
+    // backgroundColor: clrs.navygrey,
   },
 
   header:{
     fontSize: 50,
     color:clrs.orangeyellow,
     paddingLeft:10,
-    paddingBottom:150,
+    paddingTop:20,
+    paddingBottom:130,
     alignSelf: 'center',
     fontFamily: 'Audiowide-Regular',
     textShadowColor:clrs.black,
@@ -73,14 +85,14 @@ const styles = StyleSheet.create({
   },
 
   button:{
-    backgroundColor: clrs.indianred,
+    // backgroundColor: clrs.indianred,
     width:200,
     height: 50,
     borderRadius: 20,
     alignSelf: 'center',
     alignItems:'center',
     margin:5,
-    borderWidth:2,
+    borderWidth:3,
     borderColor:clrs.orangeyellow,
   },
 
@@ -89,8 +101,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Audiowide-Regular',
     alignSelf: 'center',
     alignItems:'center',
-    paddingTop:10,
-    color:clrs.navygrey,
+    paddingTop:8,
+    color:clrs.white,
 
   }
 

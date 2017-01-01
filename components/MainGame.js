@@ -4,6 +4,7 @@ import {
   StatusBar,
   Text,
   View,
+  Image
 } from 'react-native';
 import clrs from '../utils/clrs'
 import BinCircle from './BinCircle'
@@ -55,7 +56,7 @@ export default class MainGame extends Component {
     const circles = xrange.map((obj,i)=><BinCircle key = {i.toString()} id = {i.toString()} childOnChange = {this.childOnChange}/>)
 
     return(
-      <View style = {styles.container}>
+      <Image source={require("../utils/bg.png")} style={styles.backgroundImage} >
          <StatusBar hidden = {true} />
           <View>
             <Text style = {styles.randomNumber}>
@@ -65,7 +66,7 @@ export default class MainGame extends Component {
           <View style = {styles.circleContainer} >
              {circles}
           </View>
-      </View>
+      </Image>
     )
   }
 
@@ -75,6 +76,12 @@ export default class MainGame extends Component {
 }
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    width: null,
+    height: null,
+    resizeMode:'stretch',
+  },
   container: {
     // paddingTop: 16,
     flex: 1,
