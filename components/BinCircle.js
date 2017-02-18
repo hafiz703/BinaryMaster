@@ -9,7 +9,7 @@ import {  View }  from 'react-native-animatable';
 export default class BinBox extends Component {
   constructor(props){
     super(props)
-    this.state = {number:0}
+    //this.state = {number:0}
   }
 
   render(){
@@ -17,14 +17,12 @@ export default class BinBox extends Component {
     return(
       <View animation = "bounceInUp" duration = {this.props.id*450} >
         <Text style = {styles.id}>{7-this.props.id}</Text>
-        <TouchableHighlight onPress={() => {this.setState(
-                                                            {
-                                                              number:this.state.number==1 ?0:1
-                                                            });
-                                                            this.props.childOnChange(this.props.id,number=this.state.number==1?0:1);
+        <TouchableHighlight onPress={() => {
+          
+                                                            this.props.childOnChange(this.props.id,number=this.props.number==1?0:1);
                                             }
                                     }  style = {styles.touchableCircle} >
-          <Text style = {styles.text}>{this.state.number}</Text>
+          <Text style = {styles.text}>{this.props.number}</Text>
         </TouchableHighlight>
 
       </View>

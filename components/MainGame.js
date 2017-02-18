@@ -23,7 +23,7 @@ export default class MainGame extends Component {
 
                 }
     this.childOnChange = this.childOnChange.bind(this);
-
+    console.warn(this.state.childList);
     BackAndroid.addEventListener("hardwareBackPress", () => {
         if (props.navigator.getCurrentRoutes().length > 1) {
           props.navigator.pop()
@@ -41,7 +41,7 @@ export default class MainGame extends Component {
     const sum = arr.reduce(function(prev, cur) {
       return prev + cur;
     })
-    // console.warn('sum:',sum)
+    console.log('sum:',sum)
     this.setState({prevNum:this.state.randomNumber},
                   ()=>{
                         if(sum===this.state.randomNumber){
@@ -50,7 +50,8 @@ export default class MainGame extends Component {
                             }while(newrandom==this.state.prevNum);
                             // console.warn(newrandom);
                             this.setState({
-                                randomNumber:newrandom
+                                randomNumber:newrandom,
+                                childList:Array(8).fill(0)
                             }
                             );
 
@@ -64,16 +65,22 @@ export default class MainGame extends Component {
 
   childOnChange(oId,num ){
     // console.warn("oid,num:",oId,num)
-    const childListNew = this.state.childList.slice();
-    childListNew[oId] = Math.pow(2,(7-oId))*num;
-    this.setState({childList: childListNew},()=>this.checker(this.state.childList));
+    this.state.childList[oId] = num;
+    const childListCheck = this.state.childList.slice();
+    for(var i=0;i<8;i++){
+      childListCheck[i] *= Math.pow(2,(7-i));
+    }
+
+
+    this.checker(childListCheck);
+
 
 
   }
 
   render(){
     const xrange = _.range(8)
-    const circles = xrange.map((obj,i)=><BinCircle key = {i.toString()} id = {i.toString()} childOnChange = {this.childOnChange}  />)
+    const circles = xrange.map((obj,i)=><BinCircle key = {i.toString()} id = {i.toString()} childOnChange = {this.childOnChange} number = {this.state.childList[i]}  />)
 
     return(
       <Image source={require("../utils/bg.png")} style={styles.backgroundImage} >
