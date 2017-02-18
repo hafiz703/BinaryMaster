@@ -4,25 +4,38 @@ import {
   StatusBar,
   Text,
   View,
-  Image
+  Image,
+  BackAndroid,
 } from 'react-native';
 import clrs from '../utils/clrs'
 import BinCircle from './BinCircle'
 import _ from 'lodash'
-
+import * as Animatable from 'react-native-animatable';
 export default class MainGame extends Component {
 
   constructor(props){
 
     super(props)
-    // this.state = {0:0,1:0,2:0,3:0,4:0,5:0,6:0,7:0}
+
     this.state ={ childList:Array(8).fill(0),
                   randomNumber:Math.floor(Math.random() * 255) + 1,
-                  prevNum: null,
+                  prevNum: null
+
                 }
     this.childOnChange = this.childOnChange.bind(this);
 
+    BackAndroid.addEventListener("hardwareBackPress", () => {
+        if (props.navigator.getCurrentRoutes().length > 1) {
+          props.navigator.pop()
+          return true // do not exit app
+        } else {
+          return false // exit app
+        }
+    })
+
   }
+
+
 
   checker(arr){
     const sum = arr.reduce(function(prev, cur) {
@@ -30,17 +43,24 @@ export default class MainGame extends Component {
     })
     // console.warn('sum:',sum)
     this.setState({prevNum:this.state.randomNumber},
-                  ()=>{if(sum===this.state.randomNumber){
-                        do{
-                            var newrandom=Math.floor(Math.random() * 255) + 1;
-                          }while(newrandom==this.state.prevNum);
-                          // console.warn(newrandom);
-                          this.setState({randomNumber:newrandom});
-                        }
+                  ()=>{
+                        if(sum===this.state.randomNumber){
+                          do{
+                              var newrandom=Math.floor(Math.random() * 255) + 1;
+                            }while(newrandom==this.state.prevNum);
+                            // console.warn(newrandom);
+                            this.setState({
+                                randomNumber:newrandom
+                            }
+                            );
 
-                 })
+                          }
+
+                 });
 
   }
+
+
 
   childOnChange(oId,num ){
     // console.warn("oid,num:",oId,num)
@@ -53,15 +73,15 @@ export default class MainGame extends Component {
 
   render(){
     const xrange = _.range(8)
-    const circles = xrange.map((obj,i)=><BinCircle key = {i.toString()} id = {i.toString()} childOnChange = {this.childOnChange}/>)
+    const circles = xrange.map((obj,i)=><BinCircle key = {i.toString()} id = {i.toString()} childOnChange = {this.childOnChange}  />)
 
     return(
       <Image source={require("../utils/bg.png")} style={styles.backgroundImage} >
          <StatusBar hidden = {true} />
           <View>
-            <Text style = {styles.randomNumber}>
+            <Animatable.Text animation="bounceInDown" style = {styles.randomNumber} duration ={2000}>
               {this.state.randomNumber}
-            </Text>
+            </Animatable.Text>
           </View>
           <View style = {styles.circleContainer} >
              {circles}

@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
 
   header:{
-    fontSize: 50,
+    fontSize: 60,
     color:clrs.orangeyellow,
     paddingLeft:10,
     paddingTop:20,
